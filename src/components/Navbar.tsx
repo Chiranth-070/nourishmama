@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', href: '/', icon: <Home className="h-5 w-5" /> },
-    { name: 'Nutrition Guides', href: '/guides', icon: <BookOpen className="h-5 w-5" /> },
+    { name: 'News', href: '/news  ', icon: <BookOpen className="h-5 w-5" /> },
     { name: 'Meal Plans', href: '/meal-plans', icon: <Calendar className="h-5 w-5" /> },
     { name: 'Wellness Tips', href: '/wellness', icon: <Heart className="h-5 w-5" /> },
   ];

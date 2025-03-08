@@ -1,8 +1,56 @@
-
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Apple, Salad } from "lucide-react";
+import { ChevronRight, Apple, Salad, RotateCw } from "lucide-react";
+import { useState } from "react";
+import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+
+const TipSchema = z.object({
+  tip: z.string(),
+  category: z.string()
+}).required();
+
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 const Hero = () => {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [tip, setTip] = useState("Focus on eating a rainbow of fruits and vegetables daily to ensure you're getting a diverse range of nutrients essential for hormone balance and overall well-being.");
+
+  const generateNewTip = async () => {
+    try {
+      setIsGenerating(true);
+      
+      const completion = await openai.beta.chat.completions.parse({
+        messages: [
+          {
+            role: "system",
+            content: "You are a professional nutritionist providing evidence-based nutrition tips for women's health."
+          },
+          {
+            role: "user",
+            content: "Generate a concise, practical nutrition tip for women's health and wellness."
+          }
+        ],
+        model: "gpt-4o-mini",
+        temperature: 0.7,
+        response_format: zodResponseFormat(TipSchema, "nutritionTip")
+      });
+
+      setTip(completion.choices[0].message.parsed.tip);
+    } catch (error) {
+      console.error('Error generating tip:', error);
+      toast.error("Failed to generate new tip", {
+        description: "Please try again later."
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-sage-50 to-white py-12 md:py-16 lg:py-20">
       <div className="container-custom">
@@ -42,26 +90,24 @@ const Hero = () => {
               </div>
               
               <div className="pt-16 p-6">
-                <div className="text-xl font-medium mb-4 text-sage-800">Today's AI-Generated Nutrition Tip</div>
+                <div className="flex justify-between items-center mb-4">
+                  <div className="text-xl font-medium text-sage-800">Today's AI-Generated Nutrition Tip</div>
+                  <Button
+                    onClick={generateNewTip}
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-sage-600 hover:text-sage-700"
+                    disabled={isGenerating}
+                  >
+                    <RotateCw className={`h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+                  </Button>
+                </div>
                 <div className="p-4 bg-sage-50 rounded-lg mb-6">
                   <p className="text-sage-700">
-                    "Focus on eating a rainbow of fruits and vegetables daily to ensure you're getting a diverse range of nutrients essential for hormone balance and overall well-being."
+                    "{tip}"
                   </p>
                 </div>
                 
-                <div className="border-t border-sage-100 pt-4">
-                  <div className="text-lg font-medium mb-3 text-sage-800">Recommended for You</div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-cream-100 p-3 rounded-lg flex items-center">
-                      <Apple className="h-5 w-5 text-peach-500 mr-2" />
-                      <span className="text-sm">Iron-rich foods</span>
-                    </div>
-                    <div className="bg-lavender-100 p-3 rounded-lg flex items-center">
-                      <Salad className="h-5 w-5 text-sage-500 mr-2" />
-                      <span className="text-sm">Fiber boost</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

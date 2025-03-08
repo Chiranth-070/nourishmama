@@ -128,7 +128,7 @@ Provide the response in the following JSON structure:
       <section className="py-16">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <h2 className="section-title">Nutrition for Every Life Stage</h2>
+            <h2 className="section-title">Generic Nutrition for Every Life Stage</h2>
             <p className="text-sage-600">
               Women's nutritional needs evolve throughout life. Discover tailored guidance, essential nutrients, and meal plans specific to your current life stage.
             </p>

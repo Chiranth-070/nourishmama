@@ -20,7 +20,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/guides" element={<Guides />} />
+          <Route path="/news" element={<Guides />} />
           <Route path="/meal-plans" element={<MealPlans />} />
           <Route path="/wellness" element={<Wellness />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
