@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +8,7 @@ import Guides from "./pages/Guides";
 import MealPlans from "./pages/MealPlans";
 import Wellness from "./pages/Wellness";
 import NotFound from "./pages/NotFound";
+import NutritionCalculator from "@/components/NutritionCalculator";
 
 const queryClient = new QueryClient();
 

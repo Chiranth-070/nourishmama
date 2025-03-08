@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ActivitySquare, Scale, Pocket } from "lucide-react";
+import { ActivitySquare, Scale, Pocket, BookOpen } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -26,8 +26,19 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+import { LoadingOverlay } from "@/components/ui/loading-overlay";
+import { getNutritionGuide } from '@/api/nutrition-guide';
+import { useToast } from "@/components/ui/use-toast";
+
+interface NutritionGuideResponse {
+  sections: {
+    title: string;
+    content: string[];
+  }[];
+}
 
 const NutritionCalculator = () => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("bmi");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
@@ -37,6 +48,7 @@ const NutritionCalculator = () => {
   const [result, setResult] = useState<number | null>(null);
   const [calories, setCalories] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [dialogContent, setDialogContent] = useState<{
     title: string;
     description: string;
@@ -47,6 +59,9 @@ const NutritionCalculator = () => {
     tips: [],
   });
 
+  const [nutritionGuideOpen, setNutritionGuideOpen] = useState(false);
+  const [nutritionGuide, setNutritionGuide] = useState<NutritionGuideResponse | null>(null);
+
   const resetForm = () => {
     setHeight("");
     setWeight("");
@@ -55,6 +70,50 @@ const NutritionCalculator = () => {
     setActivityLevel("moderate");
     setResult(null);
     setCalories(null);
+  };
+
+  const fetchNutritionGuide = async () => {
+    try {
+      console.log('Starting nutrition guide fetch...');
+      setIsLoading(true);
+      setNutritionGuideOpen(false);
+      
+      let requestData = {};
+      if (activeTab === "bmi" && result !== null) {
+        requestData = {
+          bmi: result,
+          category: getBMICategory(result).category
+        };
+      } else if (activeTab === "calories" && calories !== null) {
+        requestData = {
+          calories,
+          activityLevel
+        };
+      } else {
+        throw new Error("Please calculate your metrics first");
+      }
+
+      console.log('Fetching nutrition guide with data:', requestData);
+      const data = await getNutritionGuide(requestData);
+      console.log('Received nutrition guide data:', data);
+
+      if (!data || !data.sections || data.sections.length === 0) {
+        throw new Error("Invalid response format from nutrition guide");
+      }
+      
+      setNutritionGuide(data);
+      setNutritionGuideOpen(true);
+    } catch (error) {
+      console.error("Error fetching nutrition guide:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to generate nutrition guide. Please try again.",
+      });
+      setNutritionGuideOpen(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const calculateBMI = () => {
@@ -348,6 +407,16 @@ const NutritionCalculator = () => {
                     </Button>
                   </TabsContent>
                 </Tabs>
+
+                {(result !== null || calories !== null) && (
+                  <Button
+                    onClick={fetchNutritionGuide}
+                    className="mt-6 w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700"
+                  >
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    View Nutrition Guide
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -385,6 +454,39 @@ const NutritionCalculator = () => {
           </DialogClose>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={nutritionGuideOpen} onOpenChange={setNutritionGuideOpen}>
+        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-sage-800">
+              Your Personalized Nutrition Guide
+            </DialogTitle>
+            <DialogDescription className="text-sage-600">
+              Based on your {activeTab === "bmi" ? "BMI" : "caloric needs"} calculation, here are detailed recommendations for your health journey.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-6 space-y-6">
+            {nutritionGuide?.sections.map((section, index) => (
+              <div key={index} className="space-y-3">
+                <h3 className="text-lg font-semibold text-sage-800">{section.title}</h3>
+                <ul className="space-y-2">
+                  {section.content.map((point, pointIndex) => (
+                    <li key={pointIndex} className="flex items-start gap-2 text-sage-700">
+                      <span className="text-sage-500 font-medium">•</span>
+                      <p>{point}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 text-sm text-sage-500 italic">
+            Note: This guide is generated based on AI recommendations and should be used in conjunction with professional medical advice.
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <LoadingOverlay isLoading={isLoading} />
     </>
   );
 };
