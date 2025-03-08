@@ -1,20 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Calendar,
-  Clock,
-  Utensils,
-  ArrowRight,
-  MessageCircle,
-} from "lucide-react";
+import { Calendar, Clock, Utensils, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import MealPlanChatbot from "@/components/MealPlanChatbot";
 
@@ -74,33 +61,37 @@ const MealPlans = () => {
       <Navbar />
       <main className="flex-grow pt-16 pb-20 bg-gradient-to-b from-sage-50 to-white">
         <div className="container-custom">
-          <header className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-              Meal Plans
-            </h1>
-            <p className="text-lg text-sage-700 max-w-2xl mx-auto">
-              Delicious, nutritious meal plans tailored to your unique needs,
-              preferences, and health goals.
-            </p>
-          </header>
+          {!showChatbot && (
+            <div>
+              <header className="text-center mb-16">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                  Meal Plans
+                </h1>
+                <p className="text-lg text-sage-700 max-w-2xl mx-auto">
+                  Delicious, nutritious meal plans tailored to your unique
+                  needs, preferences, and health goals.
+                </p>
+              </header>
 
-          <section className="p-8 bg-sage-50 rounded-xl text-center mb-16">
-            <h2 className="text-2xl font-semibold text-sage-800 mb-3">
-              Create Your Custom Meal Plan
-            </h2>
-            <p className="text-sage-600 mb-6 max-w-2xl mx-auto">
-              Chat with our AI assistant to get a personalized meal plan
-              designed specifically for your body, preferences, and health
-              goals.
-            </p>
-            <Button
-              className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700"
-              onClick={() => setShowChatbot(true)}
-            >
-              <MessageCircle className="mr-2 h-5 w-5" />
-              Start Chatting Now
-            </Button>
-          </section>
+              <section className="p-8 bg-sage-50 rounded-xl text-center mb-16">
+                <h2 className="text-2xl font-semibold text-sage-800 mb-3">
+                  Create Your Custom Meal Plan
+                </h2>
+                <p className="text-sage-600 mb-6 max-w-2xl mx-auto">
+                  Chat with our AI assistant to get a personalized meal plan
+                  designed specifically for your body, preferences, and health
+                  goals.
+                </p>
+                <Button
+                  className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700"
+                  onClick={() => setShowChatbot(true)}
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Start Chatting Now
+                </Button>
+              </section>
+            </div>
+          )}
 
           {showChatbot && (
             <section className="mb-16">
