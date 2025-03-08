@@ -1,0 +1,12 @@
+---
+description: strcit follow my instructions.
+globs: 
+alwaysApply: false
+---
+
+# Strcily follow my instrcutions.
+
+- Make sure all the code you generated and data trasferred are type safety.
+- What ever UI create must align with existing UI.
+- Never Over deliver or under deliver. Just strcily follow my instrcutions.
+- Never distrub previous working functionality.

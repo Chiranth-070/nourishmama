@@ -39,17 +39,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="flex items-center space-x-1 text-sage-700 hover:text-sage-900">
-              <User className="h-5 w-5" />
-              <span>Sign In</span>
-            </Button>
-            <Button className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700">
-              Start Your Plan
-            </Button>
-          </div>
-
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <Button 

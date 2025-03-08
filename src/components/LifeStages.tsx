@@ -15,15 +15,6 @@ const LifeStages = () => {
       nutrients: ["Iron", "Calcium", "Protein", "Zinc"]
     },
     {
-      title: "Young Adulthood",
-      ageRange: "20-35 years",
-      description: "Energy and skin health nutrition",
-      icon: <Apple className="h-8 w-8 text-sage-500" />,
-      color: "bg-sage-50 border-sage-200",
-      buttonClass: "text-sage-700 hover:bg-sage-100",
-      nutrients: ["Antioxidants", "B Vitamins", "Omega-3s", "Vitamin E"]
-    },
-    {
       title: "Pregnancy & Postpartum",
       ageRange: "Maternal nutrition",
       description: "Nourishing mother and baby",
@@ -98,12 +89,6 @@ const LifeStages = () => {
               </CardFooter>
             </Card>
           ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Button className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700">
-            Get Personalized Nutrition Guide
-          </Button>
         </div>
       </div>
     </section>

@@ -22,30 +22,12 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4 justify-center lg:justify-start">
-              <Button size="lg" className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white font-medium px-6 py-6">
+              <Button onClick={() => window.location.href = '/meal-plans'} size="lg" className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700 text-white font-medium px-6 py-6">
                 Get Your Custom Plan
                 <ChevronRight className="ml-1 h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="border-sage-200 text-sage-700 hover:bg-sage-50 px-6 py-6">
-                Explore Nutrition Guides
-              </Button>
             </div>
-            
-            <div className="pt-6">
-              <p className="text-sm text-sage-600 mb-3">Trusted by thousands of women worldwide</p>
-              <div className="flex items-center justify-center lg:justify-start space-x-8">
-                <div className="flex -space-x-2">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-sage-100">
-                      <span className="sr-only">User avatar</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="text-sm text-sage-700">
-                  <span className="font-semibold">4.9/5</span> from over 2,000 reviews
-                </div>
-              </div>
-            </div>
+          
           </div>
           
           <div className="relative">
