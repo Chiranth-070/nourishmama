@@ -59,13 +59,13 @@ const Guides = () => {
       <main className="flex-grow pt-16 pb-20 bg-gradient-to-b from-sage-50 to-white">
         <div className="container-custom">
           <header className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Financial News</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Nutrition News</h1>
             <p className="text-lg text-sage-700 max-w-2xl mx-auto">
-              Stay updated with the latest financial news and market insights.
+              Stay updated with the latest nutrition news and insights.
             </p>
           </header>
 
-          {/* Financial News Section */}
+          {/* News Section */}
           <section className="mb-16">
             <div className="flex items-center justify-center mb-8">
               <Newspaper className="h-6 w-6 text-sage-600 mr-2" />
@@ -122,20 +122,6 @@ const Guides = () => {
             )}
           </section>
 
-          <section className="p-8 bg-sage-50 rounded-xl">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="mb-6 md:mb-0 md:mr-6">
-                <h2 className="text-2xl font-semibold text-sage-800 mb-3">Stay Updated</h2>
-                <p className="text-sage-600">
-                  Get the latest financial news and market insights delivered to your inbox.
-                </p>
-              </div>
-              <Button className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700">
-                <BookOpen className="mr-2 h-5 w-5" />
-                Subscribe Now
-              </Button>
-            </div>
-          </section>
         </div>
       </main>
       <Footer />
