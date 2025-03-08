@@ -1,24 +1,14 @@
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Utensils, ArrowRight, MessageCircle, User, ClipboardList } from "lucide-react";
+import { Calendar, Clock, Utensils, ArrowRight, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
+import MealPlanChatbot from "@/components/MealPlanChatbot";
 
 const MealPlans = () => {
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    weight: "",
-    height: "",
-    dietaryPreferences: "",
-    healthGoals: "",
-  });
+  const [showChatbot, setShowChatbot] = useState(false);
 
   const mealPlanCategories = [
     {
@@ -59,32 +49,6 @@ const MealPlans = () => {
     }
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    toast.success("Your custom meal plan request has been submitted!", {
-      description: "We'll create your personalized plan shortly.",
-    });
-    setShowForm(false);
-    setFormData({
-      name: "",
-      age: "",
-      weight: "",
-      height: "",
-      dietaryPreferences: "",
-      healthGoals: "",
-    });
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -112,122 +76,19 @@ const MealPlans = () => {
             ))}
           </section>
 
-          {showForm ? (
-            <section className="mb-16 p-8 bg-sage-50 rounded-xl">
+          {showChatbot ? (
+            <section className="mb-16">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold text-sage-800">Create Your Custom Meal Plan</h2>
                 <Button 
                   variant="ghost" 
                   className="text-sage-700" 
-                  onClick={() => setShowForm(false)}
+                  onClick={() => setShowChatbot(false)}
                 >
                   Cancel
                 </Button>
               </div>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Your Name</Label>
-                    <Input 
-                      id="name" 
-                      name="name" 
-                      value={formData.name} 
-                      onChange={handleInputChange} 
-                      placeholder="Enter your name" 
-                      required 
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="age">Age</Label>
-                    <Input 
-                      id="age" 
-                      name="age" 
-                      type="number" 
-                      value={formData.age} 
-                      onChange={handleInputChange} 
-                      placeholder="Enter your age" 
-                      required 
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="weight">Weight (kg)</Label>
-                    <Input 
-                      id="weight" 
-                      name="weight" 
-                      type="number" 
-                      value={formData.weight} 
-                      onChange={handleInputChange} 
-                      placeholder="Enter your weight" 
-                      required 
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="height">Height (cm)</Label>
-                    <Input 
-                      id="height" 
-                      name="height" 
-                      type="number" 
-                      value={formData.height} 
-                      onChange={handleInputChange} 
-                      placeholder="Enter your height" 
-                      required 
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="dietaryPreferences">Dietary Preferences</Label>
-                    <Select 
-                      onValueChange={(value) => handleSelectChange("dietaryPreferences", value)}
-                      value={formData.dietaryPreferences}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select dietary preferences" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="no-restrictions">No Restrictions</SelectItem>
-                        <SelectItem value="vegetarian">Vegetarian</SelectItem>
-                        <SelectItem value="vegan">Vegan</SelectItem>
-                        <SelectItem value="gluten-free">Gluten-Free</SelectItem>
-                        <SelectItem value="dairy-free">Dairy-Free</SelectItem>
-                        <SelectItem value="keto">Keto</SelectItem>
-                        <SelectItem value="paleo">Paleo</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="healthGoals">Health Goals</Label>
-                    <Select 
-                      onValueChange={(value) => handleSelectChange("healthGoals", value)}
-                      value={formData.healthGoals}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select health goals" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="weight-loss">Weight Loss</SelectItem>
-                        <SelectItem value="muscle-gain">Muscle Gain</SelectItem>
-                        <SelectItem value="maintenance">Weight Maintenance</SelectItem>
-                        <SelectItem value="energy-boost">Energy Boost</SelectItem>
-                        <SelectItem value="gut-health">Gut Health</SelectItem>
-                        <SelectItem value="hormone-balance">Hormone Balance</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full md:w-auto bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700"
-                >
-                  <ClipboardList className="mr-2 h-5 w-5" />
-                  Generate My Meal Plan
-                </Button>
-              </form>
+              <MealPlanChatbot />
             </section>
           ) : (
             <section className="mb-16">
@@ -268,14 +129,14 @@ const MealPlans = () => {
           <section className="p-8 bg-sage-50 rounded-xl text-center">
             <h2 className="text-2xl font-semibold text-sage-800 mb-3">Create Your Custom Meal Plan</h2>
             <p className="text-sage-600 mb-6 max-w-2xl mx-auto">
-              Get a personalized meal plan designed specifically for your body, preferences, and health goals.
+              Chat with our AI assistant to get a personalized meal plan designed specifically for your body, preferences, and health goals.
             </p>
             <Button 
               className="bg-gradient-to-r from-sage-500 to-sage-600 hover:from-sage-600 hover:to-sage-700"
-              onClick={() => setShowForm(true)}
+              onClick={() => setShowChatbot(true)}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
-              Start Your Custom Plan
+              Start Chatting Now
             </Button>
           </section>
         </div>
